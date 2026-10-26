@@ -244,6 +244,11 @@ elseif(APPLE)
     Logging/ConsoleListenerNix.cpp
     MemArenaDarwin.cpp
   )
+elseif(CMAKE_SYSTEM_NAME STREQUAL "Android")
+  target_sources(common PRIVATE
+    Logging/ConsoleListenerNix.cpp
+    MemArenaAndroid.cpp
+  )
 else()
   target_sources(common PRIVATE
     Logging/ConsoleListenerNix.cpp
