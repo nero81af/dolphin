@@ -2,14 +2,17 @@
 	path = Externals/Qt
 	url = https://github.com/dolphin-emu/ext-win-qt.git
 	shallow = true
+	update = none
 [submodule "Externals/mGBA/mgba"]
 	path = Externals/mGBA/mgba
 	url = https://github.com/mgba-emu/mgba.git
 	shallow = true
+	update = none
 [submodule "Externals/FFmpeg-bin"]
 	path = Externals/FFmpeg-bin
 	url = https://github.com/dolphin-emu/ext-win-ffmpeg.git
 	shallow = true
+	update = none
 [submodule "libusb"]
 	path = Externals/libusb/libusb
 	url = https://github.com/libusb/libusb.git
@@ -22,6 +25,7 @@
 	path = Externals/SDL/SDL
 	url = https://github.com/libsdl-org/SDL.git
 	shallow = true
+	update = none
 [submodule "Externals/zlib-ng/zlib-ng"]
 	path = Externals/zlib-ng/zlib-ng
 	url = https://github.com/zlib-ng/zlib-ng.git
@@ -38,6 +42,7 @@
 	path = Externals/cubeb/cubeb
 	url = https://github.com/mozilla/cubeb.git
 	shallow = true
+	update = none
 [submodule "Externals/implot/implot"]
 	path = Externals/implot/implot
 	url = https://github.com/epezent/implot.git
@@ -46,14 +51,17 @@
 	path = Externals/gtest
 	url = https://github.com/google/googletest.git
 	shallow = true
+	update = none
 [submodule "Externals/rcheevos/rcheevos"]
 	path = Externals/rcheevos/rcheevos
 	url = https://github.com/RetroAchievements/rcheevos.git
 	shallow = true
+	update = none
 [submodule "Externals/libadrenotools"]
 	path = Externals/libadrenotools
 	url = https://github.com/bylaws/libadrenotools.git
 	shallow = true
+	update = none
 [submodule "Externals/curl/curl"]
 	path = Externals/curl/curl
 	url = https://github.com/curl/curl.git
@@ -106,6 +114,7 @@
 	path = Externals/miniupnpc/miniupnp
 	url = https://github.com/miniupnp/miniupnp.git
 	shallow = true
+	update = none
 [submodule "Externals/glslang/glslang"]
 	path = Externals/glslang/glslang
 	url = https://github.com/KhronosGroup/glslang.git
