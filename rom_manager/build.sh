@@ -1,8 +1,9 @@
 #!/usr/bin/env bash
 # Builds Dolphin's dolphin-tool CLI (this checkout: branch rom_manager of nero81af/dolphin, 2609a with
-# our patches) as a standalone Android PIE executable (static libc++) and installs it as src/RomManager/Android/app/src/main/jniLibs/<abi>/libdolphintool.so.
+# our patches) as a standalone Android PIE executable (static libc++) and installs it as rom_manager/bin/android-<arm64|x64>/libdolphintool.so
+# (the app copies it into its jniLibs).
 #   ./build.sh            Android builds
-#   ./build.sh --windows  win-x64 build with MSVC (static CRT) into src/RomManager/Tools/win-x64/dolphin-tool.exe
+#   ./build.sh --windows  win-x64 build with MSVC (static CRT) into rom_manager/bin/win-x64/dolphin-tool.exe (inside the PC app)
 # Override ANDROID_SDK, ANDROID_NDK, CMAKE_BIN or WIN_CMAKE if the defaults below do not match.
 set -euo pipefail
 
@@ -44,7 +45,15 @@ unix_path() {
 
 ROOT=$(native_path "$(cd "$(dirname "$0")" && pwd)")
 SRC=$(dirname "$ROOT")
-JNILIBS=$ROOT/../../../src/RomManager/Android/app/src/main/jniLibs
+PREBUILT=$ROOT/bin
+# where the prebuilt tool of an ABI goes: bin/<platform> next to this script (Gradle copies it into jniLibs/<abi> of the app)
+platform_of() {
+	case "$1" in
+		arm64-v8a) echo android-arm64 ;;
+		x86_64) echo android-x64 ;;
+		*) echo "android-$1" ;;
+	esac
+}
 
 ANDROID_SDK=$(native_path "${ANDROID_SDK:-${ANDROID_HOME:-C:/Users/nero81af/AppData/Local/Android/Sdk}}")
 ANDROID_NDK=$(native_path "${ANDROID_NDK:-$ANDROID_SDK/ndk/29.0.14206865}")
@@ -61,7 +70,7 @@ git -C "$SRC" -c core.autocrlf=false submodule update --init --depth 1 --jobs 8
 if [ "${1:-}" = "--windows" ]; then
 	WIN_CMAKE=${WIN_CMAKE:-"C:/Program Files/CMake/bin/cmake.exe"}
 	build=$ROOT/build/windows
-	out=$ROOT/../../../src/RomManager/Tools/win-x64/dolphin-tool.exe
+	out=$PREBUILT/win-x64/dolphin-tool.exe
 
 	"$WIN_CMAKE" -S "$SRC" -B "$build" -A x64 \
 		-DCMAKE_POLICY_DEFAULT_CMP0091=NEW \
@@ -92,7 +101,7 @@ for abi in $ABIS; do
 
 	cmake --build "$build" --target dolphin-tool --parallel
 
-	out=$JNILIBS/$abi/libdolphintool.so
+	out=$PREBUILT/$(platform_of "$abi")/libdolphintool.so
 	mkdir -p "$(dirname "$out")"
 	"$STRIP" --strip-all -o "$out" "$build/Binaries/dolphin-tool"
 
